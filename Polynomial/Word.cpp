@@ -1,5 +1,4 @@
 #include <cmath>
-#include <algorithm>
 #include <iostream>
 #include "../Complex/utils.h"
 #include "Polynomial.h"
@@ -11,22 +10,28 @@ namespace poly {
 	const Word Word::Z2 = Word{.coef=1.0, .root=0.0, .power=2};
 
 	std::ostream &operator<<(std::ostream &stream, const Word &me) {
-		if (me.coef == 0) { return stream << 0; }
-		if (me.coef != 1 || me.power <= 0) {
-			if (me.coef > 0) stream << me.coef;
-			else stream << "(" << me.coef << ")";
+		const auto coef = ROUND(me.coef);
+		const auto root = ROUND(me.root);
+		const auto power = me.power;
+		if (coef == 0) { return stream << 0; }
+		if (coef != 1 || power == 0) {
+			if (coef > 0) stream << coef;
+			else stream << "(" << coef << ")";
 		}
-		if (me.power != 0) {
-			if (me.coef != 1) { stream << "*"; }
-			if (me.root != 0) {
-				stream << "(Z+" << me.root << ")";
+		if (power != 0) {
+			if (coef != 1) { stream << "*"; }
+			if (root != 0) {
+				stream << "(Z";
+				if (root > 0) stream << "+" << root;
+				else stream << root;
+				stream << ")";
 			} else {
 				stream << "Z";
 			}
-			if (me.power > 1) {
-				stream << "^" << me.power;
-			} else if (me.power < 1) {
-				stream << "^(" << me.power << ")";
+			if (power > 1) {
+				stream << "^" << power;
+			} else if (power < 1) {
+				stream << "^(" << power << ")";
 			}
 		}
 		return stream;
@@ -76,6 +81,11 @@ namespace poly {
 	Sentence operator+(const Word &lhs, const Word &rhs) {
 		Sentence result;
 		return plus(result, lhs, rhs);
+	}
+
+	Sentence operator-(const Word &lhs, const Word &rhs) {
+		Sentence result;
+		return plus(result, lhs, rhs * (-1));
 	}
 
 	Sentence &plus(Sentence &result, const Word &lhs, const Word &rhs) {

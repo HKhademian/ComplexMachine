@@ -38,13 +38,13 @@ int main() {
 		cout << "w3 = " << w3 << endl;
 	}
 	{
-		cout << endl << "Test " << ++i << endl;
+		cout << endl << "Test #" << ++i << endl;
 		cout << "4 = " << (4 * Word::ONE) << endl;
 		cout << "5Z = " << (5 * Word::Z) << endl;
 		cout << "3Z^2 + 4 = " << (3 * Word::Z2 + (4 * Word::ONE)) << endl;
 	}
 	{
-		cout << endl << "Test " << ++i << endl;
+		cout << endl << "Test #" << ++i << endl;
 		cout << "w1+w2=      " << (w1 + w2) << endl;
 		cout << "w2+w3=      " << (w2 + w3) << endl;
 		cout << "w1+w2+w3=   " << (w1 + w2 + w3) << endl;
@@ -53,11 +53,11 @@ int main() {
 		cout << "w1+(w2+w3)= " << (w1 + (w2 + w3)) << endl;
 	}
 	{
-		cout << endl << "Test " << ++i << endl;
+		cout << endl << "Test #" << ++i << endl;
 		cout << "(z+1)(z+2)= " << (Word{.coef=1, .root=1, .power=1} * Word{.coef=1, .root=2, .power=1}) << endl;
 	}
 	{
-		cout << endl << "Test " << ++i << endl;
+		cout << endl << "Test #" << ++i << endl;
 		cout << "w1*w2= " << (w1 * w2) << endl;
 		cout << "2*w1*w2= " << (2 * w1 * w2) << endl;
 		cout << "w1*w2*2= " << (w1 * w2 * 2) << endl;
@@ -67,7 +67,7 @@ int main() {
 		cout << "w1*0= " << (w1 * 0) << endl;
 	}
 	{
-		cout << endl << "Test " << ++i << endl;
+		cout << endl << "Test #" << ++i << endl;
 		cout << "w1/w2= " << (w1 / w2) << endl;
 		cout << "w2/w3= " << (w2 / w3) << endl;
 		cout << "w3/w2= " << (w3 / w2) << endl;
@@ -75,18 +75,18 @@ int main() {
 		cout << "w3/2= " << (w3 / 2) << endl;
 	}
 	{
-		cout << endl << "Test " << ++i << endl;
+		cout << endl << "Test #" << ++i << endl;
 		Sentence res = Word{.coef=1, .root=2, .power=1} * Word{.coef=2, .root=3, .power=1};
 		cout << "(z+2)*2*(z+3)= " << res << endl;
 		cout << "res*=2; res=   " << (res *= 2) << endl;
 		cout << "res+=1; res=   " << (res += Word::ONE) << endl;
 	}
 	{
-		cout << endl << "Test " << ++i << endl;
+		cout << endl << "Test #" << ++i << endl;
 		cout << "(z+2)*(2*(z+3))= " << (Word{.coef=1, .root=2, .power=1} * Word{.coef=2, .root=3, .power=1}) << endl;
 	}
 	{
-		cout << endl << "Test " << ++i << endl;
+		cout << endl << "Test #" << ++i << endl;
 
 		cout << "(w1)+(w2)= " << (Sentence(w1) + Sentence(w2)) << endl;
 
@@ -98,25 +98,68 @@ int main() {
 		cout << "w1+w2= " << res2 << endl;
 	}
 	{
-		cout << endl << "Test " << ++i << endl;
+		cout << endl << "Test #" << ++i << endl;
+		auto around = 1, count = 10;
 		Sentence s1(Word::ONE);
 		Sentence s2(Word::Z + 1 * Word::ONE);
 		Sentence result;
-		cout << laurent(result, s1, s2, 1, 5) << endl;
+		cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
 	}
 	{
-		cout << endl << "Test " << ++i << endl;
+		cout << endl << "Test #" << ++i << endl;
+		auto around = 0, count = 10;
+		Sentence s1(Word::ONE);
+		Sentence s2(-1 * Word::Z + 1 * Word::ONE);
+		Sentence result;
+		cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+	}
+	{
+		cout << endl << "Test #" << ++i << endl;
+		auto around = 0, count = 10;
+		Sentence s1(Word::Z);
+		Sentence s2(-1 * Word::Z + 1 * Word::ONE);
+		Sentence result;
+		cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+	}
+	{
+		cout << endl << "Test #" << ++i << endl;
+		auto around = 0, count = 10;
 		Sentence s1(Word::ONE);
 		Sentence s2(Word::Z + 1 * Word::ONE);
 		Sentence result;
-		cout << laurent(result, s1, s2, 2, 5) << endl;
+		cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
 	}
 	{
-		cout << endl << "Test " << ++i << endl;
+		cout << endl << "Test #" << ++i << endl;
+		auto around = 0, count = 10;
+		Sentence s1(Word::ONE);
+		Sentence s2(Word::Z - 1 * Word::ONE);
+		Sentence result;
+		cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+	}
+	{
+		cout << endl << "Test #" << ++i << endl;
+		auto around = 1, count = 10;
+		Sentence s1(Word::ONE);
+		Sentence s2(Word::Z);
+		Sentence result;
+		cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+	}
+	{
+		cout << endl << "Test #" << ++i << endl;
+		auto around = 2, count = 10;
+		Sentence s1(Word::ONE);
+		Sentence s2(Word::Z + 1 * Word::ONE);
+		Sentence result;
+		cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+	}
+	{
+		cout << endl << "Test #" << ++i << endl;
+		auto around = 1, count = 10;
 		Sentence s1(5 * Word::Z2 + 2 * Word::Z + 3 * Word::ONE);
 		Sentence s2(2 * Word::Z2 + 4 * Word::Z + 0 * Word::ONE);
 		Sentence result;
-		cout << laurent(result, s1, s2, 1, 5) << endl;
+		cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
 	}
 	return 0;
 }
