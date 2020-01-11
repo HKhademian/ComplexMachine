@@ -9,32 +9,49 @@ namespace poly {
 	const Word Word::Z = Word{.coef=1.0, .root=0.0, .power=1};
 	const Word Word::Z2 = Word{.coef=1.0, .root=0.0, .power=2};
 
-	std::ostream &operator<<(std::ostream &stream, const Word &me) {
+	std::ostream &print(std::ostream &stream, const Word &me, bool sign) {
 		const auto coef = ROUND(me.coef);
 		const auto root = ROUND(me.root);
 		const auto power = me.power;
 		if (coef == 0) { return stream << 0; }
-		if (coef != 1 || power == 0) {
+
+		if (sign) {
+			if (coef > 0) stream << "+";
+			else stream << "-";
+		}
+
+		if (power == 0 || (coef != 1 && coef != -1)) {
 			if (coef > 0) stream << coef;
-			else stream << "(" << coef << ")";
+			else stream << -coef;
 		}
-		if (power != 0) {
-			if (coef != 1) { stream << "*"; }
-			if (root != 0) {
-				stream << "(Z";
-				if (root > 0) stream << "+" << root;
-				else stream << root;
-				stream << ")";
-			} else {
-				stream << "Z";
-			}
-			if (power > 1) {
-				stream << "^" << power;
-			} else if (power < 1) {
-				stream << "^(" << power << ")";
-			}
+
+		if (power == 0) {
+			return stream;
 		}
+
+		if (coef == 1) { if (sign) stream << "+"; }
+		else if (coef == -1) { if (sign) stream << "-"; }
+		else stream << "*";
+
+		if (root != 0) {
+			stream << "(Z";
+			if (root > 0) stream << "+" << root;
+			else stream << root;
+			stream << ")";
+		} else {
+			stream << "Z";
+		}
+		if (power > 1) {
+			stream << "^" << power;
+		} else if (power < 1) {
+			stream << "^(" << power << ")";
+		}
+
 		return stream;
+	}
+
+	std::ostream &operator<<(std::ostream &stream, const Word &rhs) {
+		return print(stream, rhs, true);
 	}
 
 	Word operator*(const Word &lhs, const double &rhs) {
@@ -85,13 +102,17 @@ namespace poly {
 
 	Sentence operator-(const Word &lhs, const Word &rhs) {
 		Sentence result;
-		return plus(result, lhs, rhs * (-1));
+		return minus(result, lhs, rhs);
 	}
 
 	Sentence &plus(Sentence &result, const Word &lhs, const Word &rhs) {
 		plus(result, lhs);
 		plus(result, rhs);
 		return result;
+	}
+
+	Sentence &minus(Sentence &result, const Word &lhs, const Word &rhs) {
+		return plus(result, lhs, rhs * (-1));
 	}
 
 	Sentence &mul(Sentence &result, const Word &lhs, const Word &rhs) {

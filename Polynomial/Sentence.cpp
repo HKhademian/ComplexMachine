@@ -13,15 +13,25 @@ namespace poly {
 	}
 
 	std::ostream &operator<<(std::ostream &stream, const Sentence &rhs) {
-		if (rhs.size() == 1) return stream << rhs[0];
-		stream << "(" SPC;
+		//if (rhs.size() == 1) return stream << rhs[0];
+		if (rhs.size() != 1)stream << "(";
 		bool first = true;
 		for (auto &word:rhs) {
-			if (!first) stream << "+" SPC;
+			if (!first) {
+				stream << SPC;
+			}
+			if (word.isNeg()) {
+				stream << "-";
+			} else if (!first) {
+				stream << "+";
+			}
+			if (!first && !word.isConstant()) {
+				stream << SPC;
+			}
 			first = false;
-			stream << word << SPC;
+			print(stream, word, false);
 		}
-		stream << ")";
+		if (rhs.size() != 1)stream << ")";
 		return stream;
 	}
 

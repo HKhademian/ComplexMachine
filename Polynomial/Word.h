@@ -19,6 +19,11 @@ namespace poly {
 
 		[[nodiscard]] bool isFirst() const { return coef != 0 && power == 1; }
 
+		[[nodiscard]] bool isNeg() const { return coef < 0; }
+
+		/** pretty print word to given ostream */
+		friend std::ostream &print(std::ostream &stream, const Word &me, bool sign);
+
 		/** pretty print word to given ostream */
 		friend std::ostream &operator<<(std::ostream &stream, const Word &me);
 
