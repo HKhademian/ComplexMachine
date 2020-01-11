@@ -1,4 +1,3 @@
-//#include <algorithm>
 #include <iostream>
 #include "../Complex/utils.h"
 #include "Polynomial.h"
@@ -47,6 +46,25 @@ namespace poly {
 
 	Sentence &operator+=(Sentence &lhs, const Sentence &rhs) {
 		return plus(lhs, rhs);
+	}
+
+	Sentence operator-(const Sentence &lhs, const Sentence &rhs) {
+		Sentence result;
+		return minus(result, lhs, rhs);
+	}
+
+	Sentence operator-(const Sentence &lhs, const Word &rhs) {
+		Sentence result;
+		plus(result, lhs);
+		return minus(result, rhs);
+	}
+
+	Sentence &operator-=(Sentence &lhs, const Word &rhs) {
+		return minus(lhs, rhs);
+	}
+
+	Sentence &operator-=(Sentence &lhs, const Sentence &rhs) {
+		return minus(lhs, rhs);
 	}
 
 	Sentence operator*(const Sentence &lhs, const double &rhs) {
@@ -122,21 +140,23 @@ namespace poly {
 		return result;
 	}
 
-	/*Sentence &sort(Sentence &result, const Sentence &rhs) {
-		result.clear();
-		std::vector<int> indexes;
-		indexes.reserve(rhs.size());
-		for (int i = 0; i < rhs.size(); i++) indexes.push_back(i);
-		std::sort(indexes.begin(), indexes.end(), [rhs](int l, int r) {
-			return rhs[l].power < rhs[r].power || ((rhs[l].power == rhs[r].power) && rhs[l].root < rhs[r].root);
-		});
-		for (auto index:indexes) {
-			auto &word = rhs[index];
-			if (word.isZero()) continue;
-			result.push_back(word);
-		}
+	Sentence &plus(Sentence &result, const Sentence &lhs, const Sentence &rhs) {
+		expand(result, lhs);
+		expand(result, rhs);
 		return result;
-	}*/
+	}
+
+	Sentence &minus(Sentence &result, const Word &rhs) {
+		return plus(result, rhs * (-1));
+	}
+
+	Sentence &minus(Sentence &result, const Sentence &rhs) {
+		return plus(result, rhs * (-1));
+	}
+
+	Sentence &minus(Sentence &result, const Sentence &lhs, const Sentence &rhs) {
+		return plus(result, lhs, rhs * (-1));
+	}
 
 	Sentence &expand(Sentence &result, const Sentence &rhs) {
 		for (const auto &word:rhs) {
@@ -149,12 +169,6 @@ namespace poly {
 		for (const auto &word:rhs) {
 			plus(result, word);
 		}
-		return result;
-	}
-
-	Sentence &plus(Sentence &result, const Sentence &lhs, const Sentence &rhs) {
-		expand(result, lhs);
-		expand(result, rhs);
 		return result;
 	}
 
@@ -171,6 +185,63 @@ namespace poly {
 	Sentence &div(Sentence &quotient, Sentence &remainder, const Sentence &lhs, const Sentence &rhs) {
 		// TODO: implement
 		return quotient;
+	}
+
+
+	Sentence &laurent(Sentence &result, const Sentence &lhs, const Sentence &rhs, const double &root, const unsigned int count) {
+		result.clear();
+		if (lhs.empty() || rhs.empty())return result;
+		/*
+		 * T=Z+root so Z=T-root
+		 * we first change domain to T and expand words
+		 * then calculates laurent around zero of T
+		 * then backs to Z domain
+		 */
+		Sentence lT, rT;
+
+		//std::cout << "LHS:" << std::endl << lhs << std::endl << expand(lT, lhs) << std::endl;
+		//lT.clear();
+		for (auto word:lhs) { // move RHS to t domain
+			word.root -= root;
+			expand(lT, word);
+		}
+		//std::cout << lT << std::endl;
+		//Sentence lZ;
+		//for (auto word:lT) { // move back LHS to Z domain
+		//	word.root += root;
+		//	plus(lZ, word);
+		//}
+		//std::cout << lZ << std::endl;
+
+		//std::cout << "RHS:" << std::endl << rhs << std::endl << expand(rT, rhs) << std::endl;
+		//rT.clear();
+		for (auto word:rhs) { // move RHS to t domain
+			word.root -= root;
+			expand(rT, word);
+		}
+		//std::cout << rT << std::endl;
+		//Sentence rZ;
+		//for (auto word:rT) { // move back RHS to Z domain
+		//	word.root += root;
+		//	plus(rZ, word);
+		//}
+		//std::cout << rZ << std::endl;
+
+		// here lT and rT are around their zero
+		for (int i = 0; i < count; i++) {
+			Word res{
+				.coef = lT[0].coef / rT[0].coef,
+				.root = 0,
+				.power = lT[0].power - rT[0].power,
+			};
+
+			Sentence extra = rT * Sentence(res);
+			lT -= extra;
+
+			res.root -= root; // T domain to Z
+			result += res;
+		}
+		return result;
 	}
 
 }

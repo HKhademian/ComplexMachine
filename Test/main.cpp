@@ -97,5 +97,26 @@ int main() {
 		cout << "w1+w2= " << res << endl;
 		cout << "w1+w2= " << res2 << endl;
 	}
+	{
+		cout << endl << "Test " << ++i << endl;
+		Sentence s1(Word::ONE);
+		Sentence s2(Word::Z + 1 * Word::ONE);
+		Sentence result;
+		cout << laurent(result, s1, s2, 1, 5) << endl;
+	}
+	{
+		cout << endl << "Test " << ++i << endl;
+		Sentence s1(Word::ONE);
+		Sentence s2(Word::Z + 1 * Word::ONE);
+		Sentence result;
+		cout << laurent(result, s1, s2, 2, 5) << endl;
+	}
+	{
+		cout << endl << "Test " << ++i << endl;
+		Sentence s1(5 * Word::Z2 + 2 * Word::Z + 3 * Word::ONE);
+		Sentence s2(2 * Word::Z2 + 4 * Word::Z + 0 * Word::ONE);
+		Sentence result;
+		cout << laurent(result, s1, s2, 1, 5) << endl;
+	}
 	return 0;
 }

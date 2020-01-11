@@ -37,6 +37,18 @@ namespace poly {
 		/** adds two sentences and store in LHS */
 		friend Sentence &operator+=(Sentence &lhs, const Sentence &rhs);
 
+		/** subtracts two sentences and returns new sentence */
+		friend Sentence operator-(const Sentence &lhs, const Sentence &rhs);
+
+		/** subtracts a word from LHS sentence and returns new sentence */
+		friend Sentence operator-(const Sentence &lhs, const Word &rhs);
+
+		/** subtracts a word to LHS sentence and store in it */
+		friend Sentence &operator-=(Sentence &lhs, const Word &rhs);
+
+		/** subtracts two sentences and store in LHS */
+		friend Sentence &operator-=(Sentence &lhs, const Sentence &rhs);
+
 		/** multiplies a coef in sentence and return new */
 		friend Sentence operator*(const Sentence &lhs, const double &rhs);
 
@@ -58,6 +70,18 @@ namespace poly {
 		/** INSERT a Sentence to result without duplicate, (previous data in result remains) */
 		friend Sentence &plus(Sentence &result, const Sentence &rhs);
 
+		/** adds two sentences and INSERT into result (do not clear previous words) */
+		friend Sentence &plus(Sentence &result, const Sentence &lhs, const Sentence &rhs);
+
+		/** INSERT a neg word to result without duplicate, (previous data in result remains) */
+		friend Sentence &minus(Sentence &result, const Word &rhs);
+
+		/** INSERT a neg Sentence to result without duplicate, (previous data in result remains) */
+		friend Sentence &minus(Sentence &result, const Sentence &rhs);
+
+		/** subtracts two sentences and INSERT into result (do not clear previous words) */
+		friend Sentence &minus(Sentence &result, const Sentence &lhs, const Sentence &rhs);
+
 		// /// sort words by power and store in result
 		// friend Sentence &sort(Sentence &result, const Sentence &rhs);
 
@@ -66,12 +90,6 @@ namespace poly {
 
 		/** join redundant words (which only differs in coef) */
 		friend Sentence &compact(Sentence &result, const Sentence &rhs);
-
-		/** adds two sentences and insert into result (do not clear previous words) */
-		friend Sentence &plus(Sentence &result, const Sentence &lhs, const Sentence &rhs);
-
-		/** subtracts two sentences */
-		friend Sentence &minus(Sentence &result, const Sentence &lhs, const Sentence &rhs);
 
 		/** change root to new point */
 		friend Sentence &around(Sentence &result, const Sentence &rhs, double around); // TODO: use Complex
@@ -82,8 +100,10 @@ namespace poly {
 		/** divides two sentences and INSERT result into quotient and remainder also returns quotient */
 		friend Sentence &div(Sentence &quotient, Sentence &remainder, const Sentence &lhs, const Sentence &rhs);
 
-			/** creates its taylor/laurent series */
-		friend Sentence &series(Sentence &result, const Sentence &lhs, const Sentence &rhs, double around, int count);
+		/** creates its taylor/laurent series (count words) around this new root
+		 * lhs is numerator and rhs is denominator
+		 */
+		friend Sentence &laurent(Sentence &result, const Sentence &lhs, const Sentence &rhs, const double &root, unsigned int count);
 	};
 
 
