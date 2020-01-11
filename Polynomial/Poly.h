@@ -3,11 +3,12 @@
 
 #include "../Complex/utils.h"
 #include <vector>
+#include <iostream>
 
 void appPoly();
 
 namespace poly {
-	// use "" or " " to remove/add space in poly printing
+	// use "" or " " to remove/insert space in poly printing
 #define SPC ""
 
 	/** each Word is coef*(Z+root)^power */
@@ -25,23 +26,83 @@ namespace poly {
 	};
 
 	/** a sentence is a sum of some words */
-	typedef std::vector<Word> Sentence;
+	//typedef std::vector<Word> Sentence;
+	class Sentence : public std::vector<Word> {
+	};
 
+
+#if true  /* Word functions */
+
+	/// pretty print word to given ostream
 	std::ostream &operator<<(std::ostream &stream, const Word &me);
 
-	std::ostream &operator<<(std::ostream &stream, const Sentence &me);
+	/// add two words and returns a sentence contains result
+	Sentence operator+(const Word &lhs, const Word &rhs);
 
+	Sentence operator-(const Word &lhs, const Word &rhs);
 
-	/// add a word to sentence without duplicate
-	Sentence &add(Sentence &result, const Word &me);
+	/// multiplies a coef into word and return new word
+	Word operator*(const Word &lhs, const double &rhs);
 
-	/// sort words by power
-	Sentence &sort(Sentence &result, const Sentence &me);
+	/// multiplies a coef into word and save in it
+	Word &operator*=(Word &lhs, const double &rhs);
+
+	/// multiplies two words and returns a sentence as result
+	Sentence operator*(const Word &lhs, const Word &rhs);
 
 	/// expands a word by pascal series in sentence
 	Sentence &expand(Sentence &result, const Word &me);
 
-	/// expands words of sentences in sentence
+	/// adds two words and INSERT result in result
+	Sentence &plus(Sentence &result, const Word &lhs, const Word &rhs);
+
+	/// subtracts two words and INSERT result in result
+	Sentence &minus(Sentence &result, const Word &lhs, const Word &rhs);
+
+	/// multiplies two words and INSERT result in result
+	Sentence &mul(Sentence &result, const Word &lhs, const Word &rhs);
+
+#endif
+
+#if true  /* Sentence functions */
+
+	/// pretty print sequence to given ostream
+	std::ostream &operator<<(std::ostream &stream, const Sentence &me);
+
+	/** adds two sentences and return new sentence */
+	Sentence operator+(const Sentence &lhs, const Sentence &rhs);
+
+	/** adds a word to LHS sentence and return new sentence */
+	Sentence operator+(const Sentence &lhs, const Word &rhs);
+
+	/** adds a word to LHS sentence and return new sentence */
+	Sentence operator+(const Word &rhs, const Sentence &lhs);
+
+	/** adds a word to LHS sentence and store in it */
+	Sentence &operator+=(Sentence &lhs, const Word &rhs);
+
+	/** adds two sentences and store in LHS */
+	Sentence &operator+=(Sentence &lhs, const Sentence &rhs);
+
+	/** multiplies a coef in sentence and return new */
+	Sentence operator*(const Sentence &lhs, const double &rhs);
+
+	/** multiplies a coef in sentence and store in it */
+	Sentence &operator*=(Sentence &lhs, const double &rhs);
+
+	/** multiplies a coef in sentence and return new */
+	Sentence operator*(const Sentence &lhs, const Sentence &rhs);
+
+	/// INSERT a word to result without duplicate, (previous data in result remains)
+	Sentence &plus(Sentence &result, const Word &me);
+
+	/// INSERT a Sentence to result without duplicate, (previous data in result remains)
+	Sentence &plus(Sentence &result, const Sentence &me);
+
+	/// sort words by power and store in result
+	Sentence &sort(Sentence &result, const Sentence &me);
+
+	/// expands words of sentences in result
 	Sentence &expand(Sentence &result, const Sentence &me);
 
 	/** join redundant words (which only differs in coef) */
@@ -51,16 +112,19 @@ namespace poly {
 	Sentence &plus(Sentence &result, const Sentence &lhs, const Sentence &rhs);
 
 	/** subtracts two sentences */
-	Sentence minus(const Sentence &lhs, const Sentence &rhs);
+	Sentence &minus(Sentence &result, const Sentence &lhs, const Sentence &rhs);
 
 	/** change root to new point */
-	Sentence around(const Sentence &me, double around); // TODO: use Complex
+	Sentence &around(Sentence &result, const Sentence &me, double around); // TODO: use Complex
 
 	/** multiplies two sentences */
-	Sentence mul(const Sentence &lhs, const Sentence &rhs);
+	Sentence &mul(Sentence &result, const Sentence &lhs, const Sentence &rhs);
 
 	/** creates its taylor/laurent series */
-	Sentence div(const Sentence &lhs, const Sentence &rhs, double around, int count);
+	Sentence &div(Sentence &result, const Sentence &lhs, const Sentence &rhs, double around, int count);
+
+#endif
+
 }
 
 #endif

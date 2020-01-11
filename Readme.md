@@ -13,4 +13,4 @@ Note about commands
 Examples here
 
 ## TODOs
-- [ ] add new todos
+- [ ] insert new todos
