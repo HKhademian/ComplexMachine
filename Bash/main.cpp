@@ -1,6 +1,7 @@
-#include "Complex/ComplexNum.h"
-#include "Computer/Memory.h"
-#include "Bash/Bash.cpp"
+#include <cstring>
+#include "../Complex/ComplexNum.h"
+#include "../Computer/Memory.h"
+#include "Bash.h"
 
 using namespace std;
 using namespace Complex;
@@ -19,6 +20,6 @@ int main() {
 		mem.createNew = false;
 	}
 //	ComplexNum memory[4 * 10];
-	Bash::loop(mem);
+	bash::loop(mem);
 	return 0;
 }

@@ -4,7 +4,7 @@
 #include <cmath>
 #include "Computer.h"
 #include "Memory.h"
-#include "../utils.h"
+#include "../Complex/utils.h"
 #include "../Complex/ComplexNum.h"
 #include "../Complex/ComplexFunction.h"
 

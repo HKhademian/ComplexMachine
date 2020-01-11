@@ -1,6 +1,6 @@
 #include <cmath>
 #include <cstring>
-#include "../utils.h"
+#include "utils.h"
 #include "ComplexNum.h"
 #include "ComplexFunction.h"
 
