@@ -1,16 +1,22 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
-#include "Poly.h"
+#include "../Complex/utils.h"
+#include "Polynomial.h"
 
 namespace poly {
 	const Word Word::ZERO = Word{.coef=0.0, .root=0.0, .power=0};
 	const Word Word::ONE = Word{.coef=1.0, .root=0.0, .power=0};
+	const Word Word::Z = Word{.coef=1.0, .root=0.0, .power=1};
+	const Word Word::Z2 = Word{.coef=1.0, .root=0.0, .power=2};
 
 	std::ostream &operator<<(std::ostream &stream, const Word &me) {
 		if (me.coef == 0) { return stream << 0; }
-		if (me.coef != 1 || me.power <= 0) { stream << me.coef; }
-		if (me.power > 0) {
+		if (me.coef != 1 || me.power <= 0) {
+			if (me.coef > 0) stream << me.coef;
+			else stream << "(" << me.coef << ")";
+		}
+		if (me.power != 0) {
 			if (me.coef != 1) { stream << "*"; }
 			if (me.root != 0) {
 				stream << "(Z+" << me.root << ")";
@@ -19,13 +25,19 @@ namespace poly {
 			}
 			if (me.power > 1) {
 				stream << "^" << me.power;
+			} else if (me.power < 1) {
+				stream << "^(" << me.power << ")";
 			}
 		}
 		return stream;
 	}
 
 	Word operator*(const Word &lhs, const double &rhs) {
-		return Word{.coef = lhs.coef * rhs, .root = lhs.coef, .power = lhs.power};
+		return Word{.coef = lhs.coef * rhs, .root = lhs.root, .power = lhs.power};
+	}
+
+	Word operator*(const double &lhs, const Word &rhs) {
+		return rhs * lhs;
 	}
 
 	Word &operator*=(Word &lhs, const double &rhs) {
@@ -36,6 +48,29 @@ namespace poly {
 	Sentence operator*(const Word &lhs, const Word &rhs) {
 		Sentence result;
 		return mul(result, lhs, rhs);
+	}
+
+	Word operator/(const Word &lhs, const double &rhs) {
+		if (rhs == 0) return lhs;//ERR
+		return Word{.coef = lhs.coef / rhs, .root = lhs.coef, .power = lhs.power};
+	}
+
+	Word &operator/=(Word &lhs, const double &rhs) {
+		if (rhs == 0) return lhs;//ERR
+		lhs.coef /= rhs;
+		return lhs;
+	}
+
+	Sentence operator/(const Word &lhs, const Word &rhs) {
+		Sentence quotient, remainder;
+		div(quotient, remainder, lhs, rhs);
+		return quotient;
+	}
+
+	Sentence operator%(const Word &lhs, const Word &rhs) {
+		Sentence quotient, remainder;
+		div(quotient, remainder, lhs, rhs);
+		return remainder;
 	}
 
 	Sentence operator+(const Word &lhs, const Word &rhs) {
@@ -62,6 +97,23 @@ namespace poly {
 		expand(l, lhs);
 		expand(r, rhs);
 		return mul(result, l, r);
+	}
+
+	Sentence &div(Sentence &quotient, Sentence &remainder, const Word &lhs, const Word &rhs) {
+		if (rhs.isZero()) return quotient; // ERR
+		if (lhs.isZero()) return quotient; // Nothing happened as function definition
+		if (lhs.root == rhs.root) {
+			return plus(quotient, Word{
+				.coef = lhs.coef / rhs.coef,
+				.root = lhs.root,
+				.power = lhs.power - rhs.power,
+			});
+		}
+		// expands two and divide two resulting sentences
+		Sentence ls, rs;
+		expand(ls, lhs);
+		expand(rs, rhs);
+		return div(quotient, remainder, ls, rs);
 	}
 
 

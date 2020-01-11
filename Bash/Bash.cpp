@@ -4,7 +4,7 @@
 #include <cstring>
 #include "../Complex/ComplexNum.h"
 #include "../Computer/Computer.h"
-#include "../Polynomial/Poly.h"
+#include "../Polynomial/Polynomial.h"
 
 using namespace std;
 

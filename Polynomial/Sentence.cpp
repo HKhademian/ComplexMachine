@@ -1,15 +1,23 @@
-#include <cmath>
-#include <algorithm>
+//#include <algorithm>
 #include <iostream>
-#include "Poly.h"
+#include "../Complex/utils.h"
+#include "Polynomial.h"
+#include "Sentence.h"
 
 namespace poly {
+	Sentence::Sentence(const Word &word) {
+		push_back(word);
+	}
 
-	std::ostream &operator<<(std::ostream &stream, const Sentence &me) {
-		if (me.size() == 1) return stream << me[0];
+	const std::vector<Word> &Sentence::words() const {
+		return self;
+	}
+
+	std::ostream &operator<<(std::ostream &stream, const Sentence &rhs) {
+		if (rhs.size() == 1) return stream << rhs[0];
 		stream << "(" SPC;
 		bool first = true;
-		for (auto &word:me) {
+		for (auto &word:rhs) {
 			if (!first) stream << "+" SPC;
 			first = false;
 			stream << word << SPC;
@@ -37,6 +45,10 @@ namespace poly {
 		return plus(lhs, rhs);
 	}
 
+	Sentence &operator+=(Sentence &lhs, const Sentence &rhs) {
+		return plus(lhs, rhs);
+	}
+
 	Sentence operator*(const Sentence &lhs, const double &rhs) {
 		Sentence result;
 		for (const auto &word:lhs) {
@@ -57,63 +69,86 @@ namespace poly {
 		return mul(result, lhs, rhs);
 	}
 
-	Sentence &plus(Sentence &result, const Word &me) {
-		for (auto &word:result) {
-			if (word.power == me.power && word.root == me.root) {
-				word.coef += me.coef;
+	Sentence operator/(const Sentence &lhs, const Sentence &rhs) {
+		Sentence quotient, remainder;
+		div(quotient, remainder, lhs, rhs);
+		return quotient;
+	}
+
+	Sentence operator%(const Sentence &lhs, const Sentence &rhs) {
+		Sentence quotient, remainder;
+		div(quotient, remainder, lhs, rhs);
+		return remainder;
+	}
+
+	Sentence &plus(Sentence &result, const Word &rhs) {
+		for (int i = 0; i < result.size(); i++) {
+			auto &word = result[i];
+			if (word.power == rhs.power && word.root == rhs.root) {
+				word.coef += rhs.coef;
+				if (word.isZero() && result.size() > 1) { // remove if it is zero and its not empty
+					result.erase(result.begin() + i);
+				}
 				return result;
 			}
 		}
-		// find zero to  replace
-		for (auto &word:result) {
+
+		//remove zeros
+		for (int i = 0; i < result.size(); i++) {
+			auto &word = result[i];
 			if (word.isZero()) {
-				word.coef = me.coef;
-				word.root = me.root;
-				word.power = me.power;
+				result.erase(result.begin() + i--);
+			}
+		}
+
+		//search for first greater power and add before it
+		for (int i = 0; i < result.size(); i++) {
+			auto &word = result[i];
+			if (rhs.power < word.power || (rhs.power == word.power && rhs.root < word.root)) {
+				result.insert(result.begin() + i, rhs);
 				return result;
 			}
 		}
-		// add new word
-		result.push_back(me);
+
+		// add as last word
+		result.push_back(rhs);
 		return result;
 	}
 
-	Sentence &plus(Sentence &result, const Sentence &me) {
-		for (auto &word:me) {
+	Sentence &plus(Sentence &result, const Sentence &rhs) {
+		for (auto &word:rhs) {
 			plus(result, word);
 		}
 		return result;
 	}
 
-	Sentence &sort(Sentence &result, const Sentence &me) {
+	/*Sentence &sort(Sentence &result, const Sentence &rhs) {
 		result.clear();
 		std::vector<int> indexes;
-		indexes.reserve(me.size());
-		for (int i = 0; i < me.size(); i++) indexes.push_back(i);
-		std::sort(indexes.begin(), indexes.end(), [me](int l, int r) {
-			return me[l].power < me[r].power || ((me[l].power == me[r].power) && me[l].root < me[r].root);
+		indexes.reserve(rhs.size());
+		for (int i = 0; i < rhs.size(); i++) indexes.push_back(i);
+		std::sort(indexes.begin(), indexes.end(), [rhs](int l, int r) {
+			return rhs[l].power < rhs[r].power || ((rhs[l].power == rhs[r].power) && rhs[l].root < rhs[r].root);
 		});
 		for (auto index:indexes) {
-			auto &word = me[index];
+			auto &word = rhs[index];
 			if (word.isZero()) continue;
 			result.push_back(word);
 		}
 		return result;
-	}
+	}*/
 
-	Sentence &expand(Sentence &result, const Sentence &me) {
-		for (const auto &word:me) {
+	Sentence &expand(Sentence &result, const Sentence &rhs) {
+		for (const auto &word:rhs) {
 			expand(result, word);
 		}
 		return result;
 	}
 
-	Sentence &compact(Sentence &result, const Sentence &me) {
-		Sentence mem;
-		for (const auto &word:me) {
-			plus(mem, word);
+	Sentence &compact(Sentence &result, const Sentence &rhs) {
+		for (const auto &word:rhs) {
+			plus(result, word);
 		}
-		sort(result, mem);
 		return result;
 	}
 
@@ -132,4 +167,10 @@ namespace poly {
 		}
 		return result;
 	}
+
+	Sentence &div(Sentence &quotient, Sentence &remainder, const Sentence &lhs, const Sentence &rhs) {
+		// TODO: implement
+		return quotient;
+	}
+
 }
