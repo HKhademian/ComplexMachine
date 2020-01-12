@@ -27,16 +27,16 @@ namespace poly {
 	void appPolyExample() {
 		cout << "POLYNOMIAL EXAMPLES: " << endl;
 		cout << "here you see some example to test and see how this api works" << endl;
-		cout << "A word is simply coef*(Z+root)^power" << endl;
+		cout << "A word is simply coef*(Z+root)^power like 5*(Z-3)^4" << endl;
 		cout << "these three variables in a word has major impact on how data are calculated" << endl;
 		cout << "some where it depends on POWER somewhere on its root" << endl;
 		cout << "A Sentence is sum of some words (can have different powers,roots and coefs)" << endl;
-		cout << "I also implement expand(WORD/SENTENCE) to expand single/multiple word by PASCAL series to a zero-root sum of words" << endl;
+		cout << "I also implement expand(WORD/SENTENCE) function to expand single/multiple word by PASCAL series to a zero-root sum of words" << endl;
 		cout << "this how, I can add or multiply in some operations" << endl;
-		cout << "basic operation (add, subtract, multiply, divide) are works normally as you expect from Polynomials" << endl;
+		cout << "basic operation (add, subtract, multiply, divide) work normally as you expect from Polynomials" << endl;
 		cout << "there is a laurent function that use another method of dividend to generate taylor/laurent series of a Fraction" << endl;
 		cout << "there is working TODO to calculate residual of these laurent series" << endl;
-		cout << "also I implement generateXXX(BASE, count) to generate laurent series for known functions like exp, ..." << endl;
+		cout << "also I implement generateXXX(BASE, count) function to generate laurent series for known functions like exp, ..." << endl;
 		cout << endl;
 
 		int i = 0;
