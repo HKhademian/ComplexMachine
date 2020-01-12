@@ -7,6 +7,9 @@
 #include "Word.h"
 #include "Sentence.h"
 
-void appPoly();
+namespace poly {
+	void appPoly();
 
+	void appPolyExample();
+}
 #endif
