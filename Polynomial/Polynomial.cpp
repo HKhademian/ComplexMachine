@@ -1,13 +1,44 @@
 #include <iostream>
+#include "../Complex/utils.h"
 #include "Polynomial.h"
 
 using namespace std;
 
 namespace poly {
+	Sentence &generateExp(Sentence &result, const Word &variable, int count) {
+		for (int i = 0; i < count; i++) {
+			const auto coef = 1.0 / (factorial(i) * variable.coef);
+			const auto power = -i * variable.power;
+			const auto word = Word{
+				.coef = coef,
+				.root = variable.root,
+				.power = power,
+			};
+			result += word;
+		}
+		return result;
+	}
+
 	void appPoly() {
+		cerr << "Sorry in this limited time I cant implement Bash support to interact with Polynomial Api so feel free to enjoy some hard coded examples: " << endl;
+		appPolyExample();
 	}
 
 	void appPolyExample() {
+		cout << "POLYNOMIAL EXAMPLES: " << endl;
+		cout << "here you see some example to test and see how this api works" << endl;
+		cout << "A word is simply coef*(Z+root)^power" << endl;
+		cout << "these three variables in a word has major impact on how data are calculated" << endl;
+		cout << "some where it depends on POWER somewhere on its root" << endl;
+		cout << "A Sentence is sum of some words (can have different powers,roots and coefs)" << endl;
+		cout << "I also implement expand(WORD/SENTENCE) to expand single/multiple word by PASCAL series to a zero-root sum of words" << endl;
+		cout << "this how, I can add or multiply in some operations" << endl;
+		cout << "basic operation (add, subtract, multiply, divide) are works normally as you expect from Polynomials" << endl;
+		cout << "there is a laurent function that use another method of dividend to generate taylor/laurent series of a Fraction" << endl;
+		cout << "there is working TODO to calculate residual of these laurent series" << endl;
+		cout << "also I implement generateXXX(BASE, count) to generate laurent series for known functions like exp, ..." << endl;
+		cout << endl;
+
 		int i = 0;
 		Word w1{.coef=1, .root=1, .power=3};
 		Word w2{.coef=2, .root=5, .power=2};
@@ -176,6 +207,32 @@ namespace poly {
 			Sentence s2(2 * Word::Z2 + 4 * Word::Z);
 			Sentence result;
 			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+		}
+
+		{
+			cout << endl << "Test #" << ++i << " (generate Exp Taylor)" << endl;
+			auto count = 5;
+			{
+				Sentence s, ss;
+				Word w = Word::Z;
+				generateExp(s, w, count);
+				expand(ss, s);
+				cout << "exp(" << w << ")=" << endl << s << endl << ss << endl;
+			}
+			{
+				Sentence s, ss;
+				Word w = Word::Z2;
+				generateExp(s, w, count);
+				expand(ss, s);
+				cout << "exp(" << w << ")=" << endl << s << endl << ss << endl;
+			}
+			{
+				Sentence s, ss;
+				Word w{.coef =1, .root = 2, .power=1};
+				generateExp(s, w, count);
+				expand(ss, s);
+				cout << "exp(" << w << ")=" << endl << s << endl << ss << endl;
+			}
 		}
 	}
 }

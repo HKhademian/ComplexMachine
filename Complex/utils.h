@@ -16,6 +16,9 @@ double inrange(double val, double min, double max);
 /** choose k element from n elemnts */
 unsigned long long chooseI(unsigned int k, unsigned int n);
 
+/** fac(n) */
+unsigned long factorial(unsigned int n);
+
 //void ltrim(const char *eql, int &start, int &end);
 //void rtrim(const char *eql, int &start, int &end);
 

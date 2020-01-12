@@ -11,5 +11,7 @@ namespace poly {
 	void appPoly();
 
 	void appPolyExample();
+
+	Sentence &generateExp(Sentence &result, const Word &variable, int count);
 }
 #endif

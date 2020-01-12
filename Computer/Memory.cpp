@@ -1,4 +1,4 @@
-#include <mem.h>
+#include <cstring>
 #include "../Complex/utils.h"
 #include "../Complex/ComplexNum.h"
 #include "Memory.h"

@@ -147,7 +147,8 @@ namespace poly {
 
 
 	Sentence &expand(Sentence &result, const Word &me) {
-		for (unsigned int i = 0; i <= me.power; i++) {
+		// TODO: support negative powers
+		for (int i = 0; i <= me.power; i++) {
 			auto choice = chooseI(i, me.power);
 			double coef = me.coef * choice * std::pow(me.root, me.power - i);
 			if (coef == 0)continue;

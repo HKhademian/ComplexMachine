@@ -31,6 +31,12 @@ unsigned long long chooseI(unsigned int k, unsigned int n) {
 	return result;
 }
 
+unsigned long factorial(unsigned int n) {
+	unsigned long res = 1;
+	for (unsigned int i = 1; i < n; i++) res *= n;
+	return res;
+}
+
 //void ltrim(const char *eql, int &start, int &end) {
 //	while (start <= end && isWhiteSpace(eql[start])) start++; //ltrim
 //}

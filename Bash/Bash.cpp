@@ -113,7 +113,7 @@ namespace bash {
 	}
 
 	void cmdPoly(int &lineNumber, const Computer::Memory &memory) {
-		appPoly();
+		poly::appPoly();
 		system("cls");
 		cmdStart(lineNumber, memory);
 	}
