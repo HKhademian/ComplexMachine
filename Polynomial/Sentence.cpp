@@ -193,14 +193,41 @@ namespace poly {
 	}
 
 	Sentence &div(Sentence &quotient, Sentence &remainder, const Sentence &lhs, const Sentence &rhs) {
-		// TODO: implement
+		// quotient.clear();
+		// remainder.clear();
+		if (lhs.empty() || rhs.empty()) return quotient; // div by/on 0
+
+		Sentence l, r;
+		expand(l, lhs);
+		expand(r, rhs);
+
+		while (!l.empty()) {
+			const auto &lw = l.back(), rw = r.back();
+
+			if (rw.power > lw.power) { // cannot divide
+				remainder += l;
+				l.clear();
+				continue;
+			}
+
+			const Word part{
+				.coef = lw.coef / rw.coef,
+				.root = 0,
+				.power = lw.power - rw.power,
+			};
+			quotient += part;
+
+			const Sentence extra = r * Sentence(part);
+			l -= extra;
+		}
+
 		return quotient;
 	}
 
 
 	Sentence &laurent(Sentence &result, const Sentence &lhs, const Sentence &rhs, const double &root, const unsigned int count) {
-		result.clear();
-		if (lhs.empty() || rhs.empty())return result;
+		// result.clear();
+		if (lhs.empty() || rhs.empty())return result; // div by/on 0
 		/*
 		 * T=Z+root so Z=T-root
 		 * we first change domain to T and expand words
@@ -239,17 +266,17 @@ namespace poly {
 
 		// here lT and rT are around their zero
 		for (int i = 0; i < count; i++) {
-			Word res{
+			Word part{
 				.coef = lT[0].coef / rT[0].coef,
 				.root = 0,
 				.power = lT[0].power - rT[0].power,
 			};
 
-			Sentence extra = rT * Sentence(res);
+			Sentence extra = rT * Sentence(part);
 			lT -= extra;
 
-			res.root -= root; // T domain to Z
-			result += res;
+			part.root -= root; // T domain to Z
+			result += part;
 		}
 		return result;
 	}

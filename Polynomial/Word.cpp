@@ -13,25 +13,25 @@ namespace poly {
 		const auto coef = ROUND(me.coef);
 		const auto root = ROUND(me.root);
 		const auto power = me.power;
-		if (coef == 0) { return stream << 0; }
 
 		if (sign) {
-			if (coef > 0) stream << "+";
+			if (coef >= 0) stream << "+";
 			else stream << "-";
 		}
 
-		if (power == 0 || (coef != 1 && coef != -1)) {
-			if (coef > 0) stream << coef;
-			else stream << -coef;
-		}
+		if (coef == 0) { return stream << 0; }
 
 		if (power == 0) {
+			if (coef > 0) stream << coef;
+			else stream << -coef;
 			return stream;
 		}
 
-		if (coef == 1) { if (sign) stream << "+"; }
-		else if (coef == -1) { if (sign) stream << "-"; }
-		else stream << "*";
+		if (coef > 0) {
+			if (coef != 1)stream << coef << "*";
+		} else {
+			if (coef != -1)stream << -coef << "*";
+		}
 
 		if (root != 0) {
 			stream << "(Z";
@@ -142,9 +142,7 @@ namespace poly {
 		}
 		// expands two and divide two resulting sentences
 		Sentence ls, rs;
-		expand(ls, lhs);
-		expand(rs, rhs);
-		return div(quotient, remainder, ls, rs);
+		return div(quotient, remainder, expand(ls, lhs), expand(rs, rhs));
 	}
 
 
