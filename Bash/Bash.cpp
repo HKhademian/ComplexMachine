@@ -18,6 +18,7 @@ namespace bash {
 				 //<< "* type \\l or `list` to list memory" << endl
 				 << "* type \\x or `exit` to exit ComplexBash" << endl
 				 << "* Please enter your commands" << endl;
+		cout.flush();
 	}
 
 	void cmdHelp(int &lineNumber, const Computer::Memory &memory) {
@@ -29,7 +30,7 @@ namespace bash {
 			<< "* type `cls` to clear screen" << endl
 			<< "* type `clear` to clear memory" << endl
 			<< "* type `list` to list memory" << endl
-			<< "* type `poly` to launch to Polynomial APP" << endl
+			<< "* type `poly` and `laurent` to launch to Polynomial APP" << endl
 			<< "* type `examples` to show examples" << endl
 			<< "* this program supports both cartesian and euler computation" << endl
 			<< "* Also you can memorize your data in 'x[0-9], y[0-9], z[0-9], w[0-9]" << endl
@@ -108,14 +109,20 @@ namespace bash {
 	}
 
 	void cmdClearScreen(int &lineNumber, const Computer::Memory &memory) {
+		cin.clear();
+		cin.ignore(INT32_MAX, '\n');
 		system("cls");
 		cmdStart(lineNumber, memory);
 	}
 
 	void cmdPoly(int &lineNumber, const Computer::Memory &memory) {
 		poly::appPoly();
-		system("cls");
-		cmdStart(lineNumber, memory);
+		cmdClearScreen(lineNumber, memory);
+	}
+
+	void cmdPolyLaurent(int &lineNumber, const Computer::Memory &memory) {
+		poly::appPolyLaurent();
+		cmdClearScreen(lineNumber, memory);
 	}
 
 	void loop(Computer::Memory &memory) {
@@ -124,6 +131,7 @@ namespace bash {
 		cmdStart(lineNumber, memory);
 		while (true) {
 			cout << "\r" << ++lineNumber << ") ";
+			cout.flush();
 			fgets(line, 1000, stdin);
 			printf("\r");
 			if (strcasecmp(line, "\\x\n") == 0 || strcasecmp(line, "exit\n") == 0) {
@@ -151,6 +159,10 @@ namespace bash {
 			}
 			if (strcasecmp(line, "poly\n") == 0) {
 				cmdPoly(lineNumber, memory);
+				continue;
+			}
+			if (strcasecmp(line, "laurent\n") == 0) {
+				cmdPolyLaurent(lineNumber, memory);
 				continue;
 			}
 			if (strcasecmp(line, "clear\n") == 0) {

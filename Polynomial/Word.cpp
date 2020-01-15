@@ -117,6 +117,12 @@ namespace poly {
 
 	Sentence &mul(Sentence &result, const Word &lhs, const Word &rhs) {
 		if (lhs.isZero() || rhs.isZero()) { return plus(result, Word::ZERO); }
+		if (lhs.isConstant()) {
+			return plus(result, lhs.coef * rhs);
+		}
+		if (rhs.isConstant()) {
+			return plus(result, rhs.coef * lhs);
+		}
 		if (lhs.root == rhs.root) {
 			return plus(result, Word{
 				.coef = lhs.coef * rhs.coef,

@@ -2,7 +2,7 @@
 #define POLYNOMIAL_H
 
 /// use "" or " " to remove/insert space in poly printing
-#define SPC ""
+#define SPC " "
 
 #include "Word.h"
 #include "Sentence.h"
@@ -11,6 +11,8 @@ namespace poly {
 	void appPoly();
 
 	void appPolyExample();
+
+	void appPolyLaurent();
 
 	Sentence &generateExp(Sentence &result, const Word &variable, int count);
 }

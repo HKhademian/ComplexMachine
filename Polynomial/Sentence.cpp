@@ -92,6 +92,23 @@ namespace poly {
 		return lhs;
 	}
 
+	Sentence operator*(const Sentence &lhs, const Word &rhs) {
+		Sentence result;
+		return mul(result, lhs, Sentence(rhs));
+	}
+
+	Sentence operator*(const Word &lhs, const Sentence &rhs) {
+		return rhs * lhs;
+	}
+
+	Sentence &operator*=(Sentence &lhs, const Word &rhs) {
+		Sentence result;
+		mul(result, lhs, Sentence(rhs));
+		lhs.clear();
+		lhs += result;
+		return lhs;
+	}
+
 	Sentence operator*(const Sentence &lhs, const Sentence &rhs) {
 		Sentence result;
 		return mul(result, lhs, rhs);

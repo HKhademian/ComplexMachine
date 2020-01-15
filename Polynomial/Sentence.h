@@ -55,6 +55,15 @@ namespace poly {
 		/** multiplies a coef in sentence and store in it */
 		friend Sentence &operator*=(Sentence &lhs, const double &rhs);
 
+		/** multiplies a word into sentence and return new */
+		friend Sentence operator*(const Word &lhs, const Sentence &rhs);
+
+		/** multiplies a word into sentence and return new */
+		friend Sentence operator*(const Sentence &lhs, const Word &rhs);
+
+		/** multiplies a word into sentence and store in it */
+		friend Sentence &operator*=(Sentence &lhs, const Word &rhs);
+
 		/** multiplies a coef in sentence and return new */
 		friend Sentence operator*(const Sentence &lhs, const Sentence &rhs);
 
@@ -91,9 +100,6 @@ namespace poly {
 		/** join redundant words (which only differs in coef) */
 		friend Sentence &compact(Sentence &result, const Sentence &rhs);
 
-		/** change root to new point */
-		friend Sentence &around(Sentence &result, const Sentence &rhs, double around); // TODO: use Complex
-
 		/** multiplies two sentences */
 		friend Sentence &mul(Sentence &result, const Sentence &lhs, const Sentence &rhs);
 
@@ -101,7 +107,7 @@ namespace poly {
 		friend Sentence &div(Sentence &quotient, Sentence &remainder, const Sentence &lhs, const Sentence &rhs);
 
 		/** creates its taylor/laurent series (count words) around this new root
-		 * lhs is numerator and rhs is denominator
+		 * lhs is numerator and rhs is denominator of a fraction
 		 */
 		friend Sentence &laurent(Sentence &result, const Sentence &lhs, const Sentence &rhs, const double &root, unsigned int count);
 	};

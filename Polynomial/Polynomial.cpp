@@ -235,4 +235,44 @@ namespace poly {
 			}
 		}
 	}
+
+	void appPolyLaurent() {
+		Sentence lhs(Word::ONE), rhs(Word::ONE), result;
+		int lcount, rcount, count;
+		double root;
+		cout << "TAYLOR/LAURENT SERIES GENERATOR" << endl;
+		cout << "* NOTICE: all roots are positive and adds to equation use negative numbers if you want *" << endl;
+		cout << "Enter numerator root count: " << flush;
+		cin >> lcount;
+		cout << "Enter denominator root count: " << flush;
+		cin >> rcount;
+		cout << "Enter series word count: " << flush;
+		cin >> count;
+		cout << "Enter series around point: " << flush;
+		cin >> root;
+		for (int i = 1; i <= lcount; i++) {
+			Word word;
+			cout << "Enter numerator word #" << i << " coef: " << flush;
+			cin >> word.coef;
+			cout << "Enter numerator word #" << i << " root: " << flush;
+			cin >> word.root;
+			cout << "Enter numerator word #" << i << " power: " << flush;
+			cin >> word.power;
+			lhs *= word;
+		}
+		for (int i = 1; i <= rcount; i++) {
+			Word word;
+			cout << "Enter denominator word #" << i << " coef: " << flush;
+			cin >> word.coef;
+			cout << "Enter denominator word #" << i << " root: " << flush;
+			cin >> word.root;
+			cout << "Enter denominator word #" << i << " power: " << flush;
+			cin >> word.power;
+			rhs *= word;
+		}
+		laurent(result, lhs, rhs, root, count);
+		cout << "final fraction: " << endl << "f(Z) = " << lhs << " ÷ " << rhs << endl;
+		cout << "Laurent/Taylor series of f(Z) around " << root << " with " << count << " words is: " << endl;
+		cout << "f(Z) = " << result << endl << endl << flush;
+	}
 }
