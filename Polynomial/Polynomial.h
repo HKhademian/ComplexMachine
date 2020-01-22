@@ -6,6 +6,7 @@
 
 #include "Word.h"
 #include "Sentence.h"
+#include "Generate.h"
 
 namespace poly {
 	void appPoly();
@@ -13,7 +14,5 @@ namespace poly {
 	void appPolyExample();
 
 	void appPolyLaurent();
-
-	Sentence &generateExp(Sentence &result, const Word &variable, int count);
 }
 #endif

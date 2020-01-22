@@ -1,24 +1,9 @@
 #include <iostream>
-#include "../Complex/utils.h"
 #include "Polynomial.h"
 
 using namespace std;
 
 namespace poly {
-	Sentence &generateExp(Sentence &result, const Word &variable, int count) {
-		for (int i = 0; i < count; i++) {
-			const auto coef = 1.0 / (factorial(i) * variable.coef);
-			const auto power = -i * variable.power;
-			const auto word = Word{
-				.coef = coef,
-				.root = variable.root,
-				.power = power,
-			};
-			result += word;
-		}
-		return result;
-	}
-
 	void appPoly() {
 		cerr << "Sorry in this limited time I cant implement Bash support to interact with Polynomial Api so feel free to enjoy some hard coded examples: " << endl;
 		appPolyExample();
@@ -232,6 +217,58 @@ namespace poly {
 				generateExp(s, w, count);
 				expand(ss, s);
 				cout << "exp(" << w << ")=" << endl << s << endl << ss << endl;
+			}
+		}
+
+		{
+			cout << endl << "Test #" << ++i << " (generate Cos Taylor)" << endl;
+			auto count = 5;
+			{
+				Sentence s, ss;
+				Word w = Word::Z;
+				generateCos(s, w, count);
+				expand(ss, s);
+				cout << "cos(" << w << ")=" << endl << s << endl << ss << endl;
+			}
+			{
+				Sentence s, ss;
+				Word w = Word::Z2;
+				generateCos(s, w, count);
+				expand(ss, s);
+				cout << "cos(" << w << ")=" << endl << s << endl << ss << endl;
+			}
+			{
+				Sentence s, ss;
+				Word w{.coef =1, .root = 2, .power=1};
+				generateCos(s, w, count);
+				expand(ss, s);
+				cout << "cos(" << w << ")=" << endl << s << endl << ss << endl;
+			}
+		}
+
+		{
+			cout << endl << "Test #" << ++i << " (generate Sin Taylor)" << endl;
+			auto count = 5;
+			{
+				Sentence s, ss;
+				Word w = Word::Z;
+				generateSin(s, w, count);
+				expand(ss, s);
+				cout << "sin(" << w << ")=" << endl << s << endl << ss << endl;
+			}
+			{
+				Sentence s, ss;
+				Word w = Word::Z2;
+				generateSin(s, w, count);
+				expand(ss, s);
+				cout << "sin(" << w << ")=" << endl << s << endl << ss << endl;
+			}
+			{
+				Sentence s, ss;
+				Word w{.coef =1, .root = 2, .power=1};
+				generateSin(s, w, count);
+				expand(ss, s);
+				cout << "sin(" << w << ")=" << endl << s << endl << ss << endl;
 			}
 		}
 	}
