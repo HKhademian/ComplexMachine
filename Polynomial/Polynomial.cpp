@@ -119,7 +119,9 @@ namespace poly {
 			Sentence s1(Word::ONE);
 			Sentence s2(Word::Z + 1 * Word::ONE);
 			Sentence result;
-			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+			double residue = generateLaurent(result, s1, s2, around, count);
+			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << result << endl;
+			cout << "Residue = " << residue << endl;
 		}
 		{
 			cout << endl << "Test #" << ++i << " (Laurent)" << endl;
@@ -127,7 +129,9 @@ namespace poly {
 			Sentence s1(Word::ONE);
 			Sentence s2(-1 * Word::Z + 1 * Word::ONE);
 			Sentence result;
-			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+			double residue = generateLaurent(result, s1, s2, around, count);
+			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << result << endl;
+			cout << "Residue = " << residue << endl;
 		}
 		{
 			cout << endl << "Test #" << ++i << " (Laurent)" << endl;
@@ -135,7 +139,9 @@ namespace poly {
 			Sentence s1(Word::Z);
 			Sentence s2(-1 * Word::Z + 1 * Word::ONE);
 			Sentence result;
-			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+			double residue = generateLaurent(result, s1, s2, around, count);
+			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << result << endl;
+			cout << "Residue = " << residue << endl;
 		}
 		{
 			cout << endl << "Test #" << ++i << " (Laurent)" << endl;
@@ -143,7 +149,9 @@ namespace poly {
 			Sentence s1(Word::ONE);
 			Sentence s2((-1 * Word::Z + 1 * Word::ONE) * Sentence(Word::Z));
 			Sentence result;
-			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+			double residue = generateLaurent(result, s1, s2, around, count);
+			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << result << endl;
+			cout << "Residue = " << residue << endl;
 		}
 		{
 			cout << endl << "Test #" << ++i << " (Laurent)" << endl;
@@ -151,7 +159,9 @@ namespace poly {
 			Sentence s1(Word::ONE);
 			Sentence s2(Word::Z + 1 * Word::ONE);
 			Sentence result;
-			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+			double residue = generateLaurent(result, s1, s2, around, count);
+			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << result << endl;
+			cout << "Residue = " << residue << endl;
 		}
 		{
 			cout << endl << "Test #" << ++i << " (Laurent)" << endl;
@@ -159,7 +169,9 @@ namespace poly {
 			Sentence s1(Word::ONE);
 			Sentence s2(Word::Z - 1 * Word::ONE);
 			Sentence result;
-			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+			double residue = generateLaurent(result, s1, s2, around, count);
+			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << result << endl;
+			cout << "Residue = " << residue << endl;
 		}
 		{
 			cout << endl << "Test #" << ++i << " (Laurent)" << endl;
@@ -167,7 +179,9 @@ namespace poly {
 			Sentence s1(Word::ONE);
 			Sentence s2(Word::Z);
 			Sentence result;
-			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+			double residue = generateLaurent(result, s1, s2, around, count);
+			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << result << endl;
+			cout << "Residue = " << residue << endl;
 		}
 		{
 			cout << endl << "Test #" << ++i << " (Laurent)" << endl;
@@ -175,7 +189,9 @@ namespace poly {
 			Sentence s1(Word::ONE);
 			Sentence s2(Word::Z + 1 * Word::ONE);
 			Sentence result;
-			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+			double residue = generateLaurent(result, s1, s2, around, count);
+			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << result << endl;
+			cout << "Residue = " << residue << endl;
 		}
 		{
 			cout << endl << "Test #" << ++i << " (Laurent)" << endl;
@@ -183,7 +199,9 @@ namespace poly {
 			Sentence s1(5 * Word::Z2 + 2 * Word::Z + 3 * Word::ONE);
 			Sentence s2(2 * Word::Z2 + 4 * Word::Z + 0 * Word::ONE);
 			Sentence result;
-			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+			double residue = generateLaurent(result, s1, s2, around, count);
+			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << result << endl;
+			cout << "Residue = " << residue << endl;
 		}
 		{
 			cout << endl << "Test #" << ++i << " (Laurent)" << endl;
@@ -191,7 +209,10 @@ namespace poly {
 			Sentence s1(3 * Word::ONE);
 			Sentence s2(2 * Word::Z2 + 4 * Word::Z);
 			Sentence result;
-			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << laurent(result, s1, s2, around, count) << endl;
+			double residue = generateLaurent(result, s1, s2, around, count);
+
+			cout << "around:" << around << endl << s1 << " / " << s2 << " = " << endl << result << endl;
+			cout << "Residue = " << residue << endl;
 		}
 
 		{
@@ -307,9 +328,10 @@ namespace poly {
 			cin >> word.power;
 			rhs *= word;
 		}
-		laurent(result, lhs, rhs, root, count);
+		double res = generateLaurent(result, lhs, rhs, root, count);
 		cout << "final fraction: " << endl << "f(Z) = " << lhs << " ÷ " << rhs << endl;
 		cout << "Laurent/Taylor series of f(Z) around " << root << " with " << count << " words is: " << endl;
-		cout << "f(Z) = " << result << endl << endl << flush;
+		cout << "f(Z) = " << result << endl << flush;
+		cout << "Residue is = " << res << endl << endl << flush;
 	}
 }

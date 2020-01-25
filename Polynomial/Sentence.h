@@ -105,11 +105,6 @@ namespace poly {
 
 		/** divides two sentences and INSERT result into quotient and remainder also returns quotient */
 		friend Sentence &div(Sentence &quotient, Sentence &remainder, const Sentence &lhs, const Sentence &rhs);
-
-		/** creates its taylor/laurent series (count words) around this new root
-		 * lhs is numerator and rhs is denominator of a fraction
-		 */
-		friend Sentence &laurent(Sentence &result, const Sentence &lhs, const Sentence &rhs, const double &root, unsigned int count);
 	};
 
 
